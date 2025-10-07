@@ -1,4 +1,4 @@
-# MyCanvas Study Hub
+# MYCANVASNOTES
 
 A collaborative learning platform that integrates with Canvas LMS to provide enhanced study tools, group learning features, and real-time collaboration capabilities.
 
