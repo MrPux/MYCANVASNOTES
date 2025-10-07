@@ -5,12 +5,10 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "/MYCANVASNOTES/",
   server: {
     host: "::",
     port: 8080,
-    mime: {
-      ".tsx": "application/javascript",
-    },
   },
   plugins: [react()].filter(Boolean),
   resolve: {
