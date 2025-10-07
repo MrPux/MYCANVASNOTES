@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -37,6 +39,21 @@ const Home = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const { toast } = useToast();
   const liquidRefreshRef = useRef<LiquidRefreshRef>(null);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+      toast({
+        title: "Logout Failed",
+        description: "There was an error signing you out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -120,6 +137,7 @@ const Home = () => {
                 {isSyncing ? 'Syncing...' : 'Sync Canvas'}
               </Button>
               <Button variant="outline" size="sm">Profile</Button>
+              <Button variant="destructive" size="sm" onClick={handleLogout}>Logout</Button>
             </div>
           </div>
         </div>

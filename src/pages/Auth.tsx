@@ -34,7 +34,7 @@ const Auth = () => {
     }
     try {
       await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
-      navigate("/");
+      navigate("/home");
     } catch (error: any) {
       setError(error.message);
     }
@@ -45,7 +45,7 @@ const Auth = () => {
     setError("");
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      navigate("/");
+      navigate("/home");
     } catch (error: any) {
       setError(error.message);
     }
@@ -174,7 +174,7 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       value={loginPassword}
-                      onChange={(e) => setLoginPassword(e.targe.value)}
+                      onChange={(e) => setLoginPassword(e.target.value)}
                       required
                     />
                   </div>
