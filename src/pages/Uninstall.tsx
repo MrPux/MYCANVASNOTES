@@ -1,251 +1,325 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Github, Mail, MessageCircle, Heart } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Heart, 
+  MessageSquare, 
+  Settings, 
+  Shield, 
+  Users, 
+  BookOpen, 
+  Zap, 
+  ArrowRight, 
+  Sparkles, 
+  CheckCircle2,
+  Clock,
+  Brain,
+  FlaskConical,
+  HelpCircle,
+  Star,
+  RefreshCw
+} from "lucide-react";
 
 const Uninstall = () => {
+  const navigate = useNavigate();
   const [selectedReason, setSelectedReason] = useState<string>('');
   const [feedback, setFeedback] = useState<string>('');
+  const [showAlternatives, setShowAlternatives] = useState(false);
 
   const uninstallReasons = [
-    "The platform doesn't work for me",
-    "I don't like the interface",
-    "My school doesn't use Canvas",
-    "I graduated/My semester is over!",
-    "I have security/privacy concerns",
-    "I found a better alternative",
-    "Other"
+    { id: "not-working", label: "The platform doesn't work for me", icon: Settings },
+    { id: "interface", label: "I don't like the interface", icon: Sparkles },
+    { id: "no-canvas", label: "My school doesn't use Canvas", icon: BookOpen },
+    { id: "graduated", label: "I graduated/My semester is over!", icon: RefreshCw },
+    { id: "privacy", label: "I have security/privacy concerns", icon: Shield },
+    { id: "alternative", label: "I found a better alternative", icon: Star },
+    { id: "other", label: "Other", icon: HelpCircle }
   ];
 
-  const faqs = [
+  const quickFixes = [
     {
-      question: "Why aren't all my Canvas classes showing?",
-      answer: "Make sure you're logged into Canvas and have granted the necessary permissions. Only classes with active assignments will appear in your dashboard."
+      title: "Canvas Connection Issues",
+      description: "Make sure you're logged into Canvas and have granted the necessary permissions",
+      icon: BookOpen,
+      action: "Check Canvas Login"
     },
     {
-      question: "Why can't I see my assignments?",
-      answer: "Ensure your Canvas account is properly connected and you have the right permissions. Try refreshing the page or logging out and back in."
+      title: "Study Room Problems", 
+      description: "Try refreshing your browser or clearing your cache for better performance",
+      icon: Users,
+      action: "Refresh Page"
     },
     {
-      question: "How do I change my study group settings?",
-      answer: "Go to your profile settings and navigate to 'Study Groups' to modify your group preferences and notification settings."
+      title: "Flashcard Generation",
+      description: "Ensure your notes are properly formatted for AI processing",
+      icon: Brain,
+      action: "Format Notes"
     },
     {
-      question: "Is my data secure?",
-      answer: "Yes! We use industry-standard encryption and never share your personal data. All collaboration happens in real-time with end-to-end security."
+      title: "Timer Not Working",
+      description: "Check your browser's notification permissions for study reminders",
+      icon: Clock,
+      action: "Enable Notifications"
+    }
+  ];
+
+  const alternatives = [
+    {
+      title: "Try Our Mobile Experience",
+      description: "Access your study groups on the go with our mobile-optimized interface",
+      icon: Sparkles,
+      action: "View Mobile Version"
+    },
+    {
+      title: "Join Our Beta Program", 
+      description: "Get early access to new features and help shape the platform's future",
+      icon: Zap,
+      action: "Join Beta"
+    },
+    {
+      title: "Contact Our Support Team",
+      description: "Our team is here to help resolve any issues you're experiencing",
+      icon: MessageSquare,
+      action: "Get Support"
+    },
+    {
+      title: "Take a Study Break",
+      description: "You can always come back later - your data will be waiting for you",
+      icon: Heart,
+      action: "Pause Account"
     }
   ];
 
   const handleReasonSelect = (reason: string) => {
     setSelectedReason(reason);
+    setShowAlternatives(true);
   };
 
   const handleSubmitFeedback = () => {
-    // Here you would typically send the feedback to your backend
     console.log('Feedback submitted:', { reason: selectedReason, feedback });
     alert('Thank you for your feedback! We appreciate you taking the time to help us improve.');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <div className="w-full px-5 md:px-10 py-6">
-        <div className="flex flex-row w-full items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <img 
-              alt="MyCanvasNotes logo" 
-              src="/src/assets/mycanvasnoteslogo.png" 
-              width="60" 
-              height="60" 
-              className="rounded-lg"
-            />
-            <h1 className="text-2xl font-bold text-gray-800">MyCanvasNotes</h1>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16 animate-fade-in">
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-red-100 rounded-full">
+            <Heart className="w-4 h-4 text-red-500" />
+            <span className="text-sm font-medium text-red-600">We'll miss you</span>
           </div>
-          <div className="flex space-x-4">
-            <Button variant="ghost" size="sm">
-              <Github className="w-4 h-4 mr-2" />
-              GitHub
-            </Button>
-            <Button variant="ghost" size="sm">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Support
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-5 md:px-10">
-        {/* Title Section */}
-        <div className="mb-10 mt-10 text-center">
-          <h1 className="font-bold text-5xl md:text-6xl text-gray-800 mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
             Sorry to see you go!
           </h1>
-          <h2 className="font-bold text-4xl md:text-5xl text-red-500">
-            Let us know how we can improve.
-          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Help us improve MyCanvasNotes by sharing your experience. Your feedback makes us better for everyone.
+          </p>
         </div>
 
         {/* Feedback Form */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Please select your reason for leaving:</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-              {uninstallReasons.map((reason, index) => (
+        <Card className="mb-16 border-2">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-2 mb-6">
+              <MessageSquare className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold">Why are you leaving?</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              {uninstallReasons.map((reason) => (
                 <Button
-                  key={index}
-                  variant={selectedReason === reason ? "default" : "outline"}
-                  className={`p-4 h-auto text-left justify-start ${
-                    selectedReason === reason 
-                      ? 'bg-red-500 hover:bg-red-600 text-white' 
-                      : 'border-red-300 hover:bg-red-50'
+                  key={reason.id}
+                  variant={selectedReason === reason.id ? "default" : "outline"}
+                  className={`p-4 h-auto text-left justify-start transition-all ${
+                    selectedReason === reason.id 
+                      ? 'bg-primary text-primary-foreground shadow-lg' 
+                      : 'hover:bg-accent/50 border-2'
                   }`}
-                  onClick={() => handleReasonSelect(reason)}
+                  onClick={() => handleReasonSelect(reason.id)}
                 >
-                  {reason}
+                  <div className="flex items-center gap-3">
+                    <reason.icon className="w-5 h-5" />
+                    <span className="font-medium">{reason.label}</span>
+                  </div>
                 </Button>
               ))}
             </div>
 
             {selectedReason && (
-              <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Additional feedback (optional):
-                </label>
-                <textarea
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  placeholder="Tell us more about your experience..."
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  rows={4}
-                />
+              <div className="space-y-6 p-6 bg-accent/20 rounded-lg border-2 border-accent/30">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Tell us more about your experience (optional):
+                  </label>
+                  <Textarea
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    placeholder="What could we have done better? What features were you looking for?"
+                    className="min-h-[100px]"
+                  />
+                </div>
                 <Button 
                   onClick={handleSubmitFeedback}
-                  className="bg-red-500 hover:bg-red-600 text-white"
+                  className="w-full"
+                  size="lg"
                 >
-                  Submit Feedback
+                  Submit Feedback & Help Us Improve
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* FAQ Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-3xl flex items-center">
-              <MessageCircle className="w-8 h-8 mr-3" />
-              Frequently Asked Questions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {faqs.map((faq, index) => (
-                <div key={index}>
-                  <h3 className="font-bold text-lg text-gray-800 mb-2">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-600 pl-4">
-                    {faq.answer}
-                  </p>
-                  {index < faqs.length - 1 && <Separator className="mt-4" />}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Privacy Notice */}
-        <Card className="mb-8 bg-red-50 border-red-200">
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-2 mb-4">
-              <Badge variant="destructive" className="text-lg">🔐</Badge>
-              <h2 className="font-bold text-xl text-red-800">Data Privacy Notice</h2>
-            </div>
-            <div className="space-y-3 text-red-700">
-              <p>
-                <strong>Your data stays with you:</strong> MyCanvasNotes does NOT send your personal data anywhere. 
-                Everything runs securely in your browser with end-to-end encryption.
-              </p>
-              <p>
-                <strong>Canvas integration only:</strong> We only access Canvas data when you explicitly grant permission, 
-                and only for the features you choose to use.
-              </p>
-              <p>
-                <strong>Real-time collaboration:</strong> Study sessions use secure, encrypted connections 
-                that don't store your conversations or shared content.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Quick Fixes Section */}
+        {selectedReason && (
+          <Card className="mb-16 border-2 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Settings className="w-6 h-6 text-primary" />
+                <h2 className="text-2xl font-bold">Quick Fixes to Try</h2>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {quickFixes.map((fix, index) => (
+                  <div 
+                    key={index}
+                    className="p-6 rounded-lg border-2 bg-card hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-md">
+                          <fix.icon className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg mb-2">{fix.title}</h3>
+                        <p className="text-muted-foreground mb-4">{fix.description}</p>
+                        <Button size="sm" variant="outline">
+                          {fix.action}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Alternative Solutions */}
-        <Card className="mb-8 bg-blue-50 border-blue-200">
-          <CardContent className="p-6">
-            <h2 className="font-bold text-xl text-blue-800 mb-4">
-              💡 Before you go, consider these alternatives:
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-white rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-blue-800 mb-2">Try our mobile app</h3>
-                <p className="text-blue-600 text-sm">Access your study groups on the go with our mobile-friendly interface.</p>
+        {showAlternatives && (
+          <Card className="mb-16 border-2 bg-gradient-to-br from-green-50 to-blue-50">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Sparkles className="w-6 h-6 text-green-600" />
+                <h2 className="text-2xl font-bold text-green-800">Before You Go...</h2>
               </div>
-              <div className="p-4 bg-white rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-blue-800 mb-2">Join our beta program</h3>
-                <p className="text-blue-600 text-sm">Get early access to new features and help shape the platform.</p>
+              <p className="text-muted-foreground mb-8 text-center">
+                Consider these alternatives that might address your concerns:
+              </p>
+              <div className="grid md:grid-cols-2 gap-6">
+                {alternatives.map((alt, index) => (
+                  <div 
+                    key={index}
+                    className="p-6 rounded-lg border-2 bg-white hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center text-white shadow-md">
+                          <alt.icon className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg mb-2">{alt.title}</h3>
+                        <p className="text-muted-foreground mb-4">{alt.description}</p>
+                        <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                          {alt.action}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="p-4 bg-white rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-blue-800 mb-2">Contact support</h3>
-                <p className="text-blue-600 text-sm">Our team is here to help resolve any issues you're experiencing.</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Privacy & Security Notice */}
+        <Card className="mb-16 border-2 bg-gradient-to-br from-blue-50 to-indigo-50">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-2 mb-6">
+              <Shield className="w-6 h-6 text-blue-600" />
+              <h2 className="text-2xl font-bold text-blue-800">Your Privacy & Security</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-4">
+                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="font-semibold mb-2">End-to-End Encryption</h3>
+                <p className="text-sm text-muted-foreground">All your data is encrypted and never shared with third parties</p>
               </div>
-              <div className="p-4 bg-white rounded-lg border border-blue-200">
-                <h3 className="font-semibold text-blue-800 mb-2">Take a break</h3>
-                <p className="text-blue-600 text-sm">You can always come back later - your data will be waiting for you.</p>
+              <div className="text-center p-4">
+                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                  <BookOpen className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="font-semibold mb-2">Canvas Integration Only</h3>
+                <p className="text-sm text-muted-foreground">We only access Canvas data when you explicitly grant permission</p>
+              </div>
+              <div className="text-center p-4">
+                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="font-semibold mb-2">Real-Time Collaboration</h3>
+                <p className="text-sm text-muted-foreground">Study sessions use secure connections that don't store conversations</p>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Final CTA */}
+        <div className="text-center space-y-6">
+          <h2 className="text-3xl font-bold mb-4">Still Want to Leave?</h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => navigate("/")}
+              className="text-lg px-8 py-6"
+            >
+              <RefreshCw className="mr-2 w-5 h-5" />
+              Give Us Another Chance
+            </Button>
+            <Button 
+              size="lg" 
+              onClick={() => navigate("/auth")}
+              className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+            >
+              <CheckCircle2 className="mr-2 w-5 h-5" />
+              Stay & Continue Learning
+            </Button>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Your feedback helps us improve • We're always here to help • Thank you for being part of our community
+          </p>
+        </div>
       </div>
 
       {/* Footer */}
-      <div className="bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-5 md:px-10 py-12">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-2">
-              A better collaborative learning platform for Canvas
-            </h3>
-            <p className="text-blue-100">
-              Transform your Canvas assignments into engaging study experiences
-            </p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-6 mb-4 md:mb-0">
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
-                <Github className="w-5 h-5 mr-2" />
-                GitHub
-              </Button>
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
-                <Mail className="w-5 h-5 mr-2" />
-                Contact
-              </Button>
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
-                <Heart className="w-5 h-5 mr-2" />
-                Support
-              </Button>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-blue-100 mb-2">Made with ❤️ for students</p>
-              <p className="text-blue-200 text-sm">
-                © 2024 MyCanvasNotes. All rights reserved.
-              </p>
-            </div>
-          </div>
+      <div className="border-t mt-16 py-8 bg-card/30">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            Made with ❤️ for students •{" "}
+            <button 
+              onClick={() => navigate("/")} 
+              className="text-primary hover:underline font-medium"
+            >
+              Return to MyCanvasNotes
+            </button>
+          </p>
         </div>
       </div>
     </div>
