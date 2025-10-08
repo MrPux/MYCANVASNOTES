@@ -16,6 +16,7 @@ import MajorClasses from "./pages/MajorClasses";
 import ClassAssignments from "./pages/ClassAssignments";
 import StudyRoom from "./pages/StudyRoom";
 import GettingStarted from "./pages/GettingStarted";
+import Uninstall from "./pages/Uninstall";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/class/:classId" element={<ClassAssignments />} />
             <Route path="/room/:roomId" element={<StudyRoom />} />
             <Route path="/getting-started" element={<GettingStarted />} />
+            <Route path="/uninstall" element={<Uninstall />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
